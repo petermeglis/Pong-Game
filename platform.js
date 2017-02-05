@@ -1,3 +1,12 @@
+
+/*
+ * platform.js
+ *
+ * The Pong game uses two Platform objects, the player and the cpu platform.
+ *
+ * Peter Meglis
+ * 4 February 2017
+ */
 function Platform(player) {
 	this.length = 50;
 	this.player = player;
@@ -5,6 +14,9 @@ function Platform(player) {
 	else if (player === 2) this.pos = createVector(width - 20, height / 2 - this.length / 2);
 	this.speed = 3;
 
+	/*
+	 * Calculates if the ball has "hit" the platform, and pushes that change to the ball object accordingly.
+	 */
 	this.hit = function(ball) {
 		if (ball.pos.x > width / 3 && ball.pos.x < 2 * width / 3) 
 			return;
@@ -28,29 +40,42 @@ function Platform(player) {
 		}
 	}
 
-
+	/*
+	 * Resets the location of the platform back to the middle.
+	 */
 	this.reset = function() {
 		if (this.player === 1) this.pos = createVector(20, height / 2 - this.length / 2);
 		else if (this.player === 2) this.pos = createVector(width - 20, height / 2 - this.length / 2);
 	}
 
-
+	/*
+	 * Draws the platform.
+	 */
 	this.show = function() {
 		stroke(255);
 		strokeWeight(3);
 		line(this.pos.x, this.pos.y, this.pos.x, this.pos.y + this.length);
 	}
 
+	/*
+	 * Moves the platform up based on the speed given to the platform.
+	 */
 	this.moveUp = function() {
 		this.edges();
 		this.pos.y -= this.speed;
 	}
 
+	/*
+	 * Moves the platform down based on the speed given to the platform.
+	 */
 	this.moveDown = function() {
 		this.edges();
 		this.pos.y += this.speed;
 	}
 
+	/*
+	 * If the platform is near an edge, this inhibits movement past the edge of the screen.
+	 */
 	this.edges = function() {
 		if (this.pos.y <= 0) {
 			this.pos.y = 0;
